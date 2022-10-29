@@ -1,6 +1,7 @@
 package net.mrunknown.mechaniummod;
 
 import net.fabricmc.api.ModInitializer;
+import net.mrunknown.mechaniummod.blocks.ModBlocks;
 import net.mrunknown.mechaniummod.items.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,5 +13,6 @@ public class MechaniumMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.registerModItems();
+		ModBlocks.registerModBlocks();
 	}
 }

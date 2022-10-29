@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "mechaniummod:block/endstone_mechanium_ore"
+  }
+}

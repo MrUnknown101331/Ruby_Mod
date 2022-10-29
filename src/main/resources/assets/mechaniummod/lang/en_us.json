@@ -1,0 +1,13 @@
+{
+  "itemGroup.mechaniummod.mechanium_item_group": "Mechanium Mod",
+
+  "item.mechaniummod.raw_mechanium": "Raw Mechanium",
+  "item.mechaniummod.mechanium": "Mechanium",
+
+  "block.mechaniummod.mechanium_block": "Mechanium Block",
+  "block.mechaniummod.mechanium_ore": "Mechanium Ore",
+  "block.mechaniummod.deepslate_mechanium_ore": "Deepslate Mechanium Ore",
+  "block.mechaniummod.netherrack_mechanium_ore": "Netherrack Mechanium Ore",
+  "block.mechaniummod.endstone_mechanium_ore": "EndStone Mechanium Ore"
+
+}
