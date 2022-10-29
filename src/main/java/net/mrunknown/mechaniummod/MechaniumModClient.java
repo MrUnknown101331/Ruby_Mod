@@ -1,8 +1,8 @@
-package net.mrunknown.rubymod;
+package net.mrunknown.mechaniummod;
 
 import net.fabricmc.api.ClientModInitializer;
 
-public class RubyModClient implements ClientModInitializer {
+public class MechaniumModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 

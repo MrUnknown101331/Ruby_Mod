@@ -1,6 +1,6 @@
-package net.mrunknown.rubymod.mixin;
+package net.mrunknown.mechaniummod.mixin;
 
-import net.mrunknown.rubymod.RubyMod;
+import net.mrunknown.mechaniummod.MechaniumMod;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ExampleMixin {
 	@Inject(at = @At("HEAD"), method = "init()V")
 	private void init(CallbackInfo info) {
-		RubyMod.LOGGER.info("This line is printed by an example mod mixin!");
+		MechaniumMod.LOGGER.info("This line is printed by an example mod mixin!");
 	}
 }

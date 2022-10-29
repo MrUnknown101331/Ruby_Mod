@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "rubymod",
+  "id": "mechaniummod",
   "version": "${version}",
 
-  "name": "Ruby Mod",
+  "name": "Mechanium Mod",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
@@ -19,14 +19,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.mrunknown.rubymod.RubyMod"
+      "net.mrunknown.mechaniummod.MechaniumMod"
     ],
     "client": [
-      "net.mrunknown.rubymod.RubyModClient"
+      "net.mrunknown.mechaniummod.MechaniumModClient"
     ]
   },
   "mixins": [
-    "rubymod.mixins.json"
+    "mechaniummod.mixins.json"
   ],
 
   "depends": {
