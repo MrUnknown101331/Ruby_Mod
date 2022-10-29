@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mechaniummod:mechanium_block",
+    "mechaniummod:mechanium_ore",
+    "mechaniummod:endstone_mechanium_ore",
+    "mechaniummod:netherrack_mechanium_ore",
+    "mechaniummod:deepslate_mechanium_ore"
+  ]
+}
