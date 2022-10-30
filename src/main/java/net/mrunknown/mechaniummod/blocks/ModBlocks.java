@@ -17,22 +17,22 @@ import net.mrunknown.mechaniummod.items.ModItemGroup;
 public class ModBlocks {
 
     public static final Block MECHANIUM_BLOCK = registerBlock("mechanium_block",
-            new Block(FabricBlockSettings.of(Material.STONE).strength(2f).requiresTool()), ModItemGroup.MECHANIUM_ITEM_GROUP);
+            new Block(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool().luminance(7)), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     public static final Block MECHANIUM_ORE = registerBlock("mechanium_ore",
-            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(1f).requiresTool(),
+            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(3f).requiresTool(),
                     UniformIntProvider.create(3, 7)), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     public static final Block DEEPSLATE_MECHANIUM_ORE = registerBlock("deepslate_mechanium_ore",
-            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(3f).requiresTool(),
+            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool(),
                     UniformIntProvider.create(3, 7)), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     public static final Block ENDSTONE_MECHANIUM_ORE = registerBlock("endstone_mechanium_ore",
-            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(3f).requiresTool(),
+            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool(),
                     UniformIntProvider.create(3, 7)), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     public static final Block NETHERRACK_MECHANIUM_ORE = registerBlock("netherrack_mechanium_ore",
-            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(1f).requiresTool(),
+            new OreBlock(FabricBlockSettings.of(Material.STONE).strength(2f).requiresTool(),
                     UniformIntProvider.create(3, 7)), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     private static Item registerBlockItem(String name, Block block, ItemGroup group) {
