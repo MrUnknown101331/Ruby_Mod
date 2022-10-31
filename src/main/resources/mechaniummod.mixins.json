@@ -6,7 +6,12 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "VillagerEntityMixinInteract",
+    "AbstractDonkeyEntityMixinInteract",
+    "HorseEntityMixinInteract",
+    "ParrotEntityMixinInteract",
+    "WanderingTraderEntityMixinInteract",
+    "WolfEntityMixinInteract"
   ],
   "injectors": {
     "defaultRequire": 1
