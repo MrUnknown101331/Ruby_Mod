@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "mechaniummod:block/mechanium_lamp_unlit"
+    },
+    "lit=true": {
+      "model": "mechaniummod:block/mechanium_lamp_lit"
+    }
+  }
+}

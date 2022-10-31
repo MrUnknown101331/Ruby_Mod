@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "mechaniummod:block/endstone_mechanium_ore"}
+    "": {
+      "model": "mechaniummod:block/endstone_mechanium_ore"
+    }
   }
 }

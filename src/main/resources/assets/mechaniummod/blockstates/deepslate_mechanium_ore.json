@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "mechaniummod:block/deepslate_mechanium_ore"}
+    "": {
+      "model": "mechaniummod:block/deepslate_mechanium_ore"
+    }
   }
 }

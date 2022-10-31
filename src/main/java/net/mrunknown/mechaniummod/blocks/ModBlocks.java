@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.Registry;
 import net.mrunknown.mechaniummod.MechaniumMod;
+import net.mrunknown.mechaniummod.blocks.Custom.MechaniumLampBlock;
 import net.mrunknown.mechaniummod.items.ModItemGroup;
 
 public class ModBlocks {
@@ -34,6 +35,10 @@ public class ModBlocks {
     public static final Block NETHERRACK_MECHANIUM_ORE = registerBlock("netherrack_mechanium_ore",
             new OreBlock(FabricBlockSettings.of(Material.STONE).strength(2f).requiresTool(),
                     UniformIntProvider.create(3, 7)), ModItemGroup.MECHANIUM_ITEM_GROUP);
+
+    public static final Block MECHANIUM_LAMP = registerBlock("mechanium_lamp",
+            new MechaniumLampBlock(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool()
+                    .luminance(state -> state.get(MechaniumLampBlock.LIT) ? 15 : 0)), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     private static Item registerBlockItem(String name, Block block, ItemGroup group) {
         return Registry.register(Registry.ITEM, new Identifier(MechaniumMod.MOD_ID, name),

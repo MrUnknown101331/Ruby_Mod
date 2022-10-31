@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "mechaniummod:block/netherrack_mechanium_ore"}
+    "": {
+      "model": "mechaniummod:block/netherrack_mechanium_ore"
+    }
   }
 }

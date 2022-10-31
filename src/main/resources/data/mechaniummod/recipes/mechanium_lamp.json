@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "@": {
+      "item": "mechaniummod:mechanium"
+    },
+    "*": {
+      "item": "minecraft:redstone_lamp"
+    }
+  },
+  "pattern": [
+    " # ",
+    "@*@",
+    " # "
+  ],
+  "result": {
+    "item": "mechaniummod:mechanium_lamp"
+  }
+}
