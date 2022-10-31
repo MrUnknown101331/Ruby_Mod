@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "mechaniummod:block/mechafruit_stage3"
+  }
+}

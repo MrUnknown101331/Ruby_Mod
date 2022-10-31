@@ -4,11 +4,14 @@
   "item.mechaniummod.raw_mechanium": "Raw Mechanium",
   "item.mechaniummod.mechanium": "Mechanium",
   "item.mechaniummod.mob_catcher_wand": "Mob Catcher Wand",
+  "item.mechaniummod.mechafruit_seed": "Mecha Fruit Seed",
+  "item.mechaniummod.mechafruit": "Mecha Fruit",
 
   "block.mechaniummod.mechanium_block": "Mechanium Block",
   "block.mechaniummod.mechanium_ore": "Mechanium Ore",
   "block.mechaniummod.deepslate_mechanium_ore": "Deepslate Mechanium Ore",
   "block.mechaniummod.netherrack_mechanium_ore": "Netherrack Mechanium Ore",
   "block.mechaniummod.endstone_mechanium_ore": "EndStone Mechanium Ore",
-  "block.mechaniummod.mechanium_lamp": "Mechanium Lamp"
+  "block.mechaniummod.mechanium_lamp": "Mechanium Lamp",
+  "block.mechaniummod.mechafruit_crop": "Mecha Fruit Crop"
 }

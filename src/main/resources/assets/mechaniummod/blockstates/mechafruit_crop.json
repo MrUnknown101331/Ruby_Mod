@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "age=0": {"model": "mechaniummod:block/mechafruit_stage0"},
+    "age=1": {"model": "mechaniummod:block/mechafruit_stage1"},
+    "age=2": {"model": "mechaniummod:block/mechafruit_stage2"},
+    "age=3": {"model": "mechaniummod:block/mechafruit_stage3"},
+    "age=4": {"model": "mechaniummod:block/mechafruit_stage4"},
+    "age=5": {"model": "mechaniummod:block/mechafruit_stage5"},
+    "age=6": {"model": "mechaniummod:block/mechafruit_stage6"}
+  }
+}
