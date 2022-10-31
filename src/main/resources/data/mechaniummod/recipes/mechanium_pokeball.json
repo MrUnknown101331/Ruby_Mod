@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "mechaniummod:mechanium"
+    },
+    "@": {
+      "item": "minecraft:iron_ingot"
+    },
+    "*": {
+      "item": "minecraft:chest"
+    }
+  },
+  "pattern": [
+    "###",
+    "@*@",
+    "###"
+  ],
+  "result": {
+    "item": "mechaniummod:mechanium_pokeball"
+  }
+}
