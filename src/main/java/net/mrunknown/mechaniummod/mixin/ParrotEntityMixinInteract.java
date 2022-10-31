@@ -1,7 +1,6 @@
 package net.mrunknown.mechaniummod.mixin;
 
 import net.minecraft.entity.passive.ParrotEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -22,7 +21,7 @@ public class ParrotEntityMixinInteract {
         World world = player.getEntityWorld();
 
         if (!world.isClient) {
-            if (stack.getItem() == ModItems.MECHANIUM_POKEBALL) {
+            if (stack.getItem() == ModItems.MOB_CATCHER_WAND) {
                 player.swingHand(hand);
 
                 cir.setReturnValue(ActionResult.PASS);

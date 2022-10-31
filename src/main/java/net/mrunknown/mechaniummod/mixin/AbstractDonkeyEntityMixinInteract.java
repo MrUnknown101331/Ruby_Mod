@@ -21,7 +21,7 @@ public class AbstractDonkeyEntityMixinInteract {
         World world = player.getEntityWorld();
 
         if (!world.isClient) {
-            if (stack.getItem() == ModItems.MECHANIUM_POKEBALL) {
+            if (stack.getItem() == ModItems.MOB_CATCHER_WAND) {
                 player.swingHand(hand);
 
                 cir.setReturnValue(ActionResult.PASS);

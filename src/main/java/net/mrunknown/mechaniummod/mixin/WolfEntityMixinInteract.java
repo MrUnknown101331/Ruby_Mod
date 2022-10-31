@@ -1,6 +1,5 @@
 package net.mrunknown.mechaniummod.mixin;
 
-import net.minecraft.entity.passive.WanderingTraderEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -22,7 +21,7 @@ public class WolfEntityMixinInteract {
         World world = player.getEntityWorld();
 
         if (!world.isClient) {
-            if (stack.getItem() == ModItems.MECHANIUM_POKEBALL) {
+            if (stack.getItem() == ModItems.MOB_CATCHER_WAND) {
                 player.swingHand(hand);
 
                 cir.setReturnValue(ActionResult.PASS);

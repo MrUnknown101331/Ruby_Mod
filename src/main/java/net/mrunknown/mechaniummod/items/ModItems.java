@@ -14,7 +14,7 @@ public class ModItems {
     public static final Item MECHANIUM = registerItem("mechanium",
             new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
 
-    public static final Item MECHANIUM_POKEBALL = registerItem("mechanium_pokeball",
+    public static final Item MOB_CATCHER_WAND = registerItem("mob_catcher_wand",
             new MechaniumPokeballItem(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
 
     private static Item registerItem(String name, Item item){
