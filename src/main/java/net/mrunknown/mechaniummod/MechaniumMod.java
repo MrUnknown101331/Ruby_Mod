@@ -3,6 +3,7 @@ package net.mrunknown.mechaniummod;
 import net.fabricmc.api.ModInitializer;
 import net.mrunknown.mechaniummod.blocks.ModBlocks;
 import net.mrunknown.mechaniummod.items.ModItems;
+import net.mrunknown.mechaniummod.utils.ModLootTableModifiers;
 import net.mrunknown.mechaniummod.world.feature.ModConfiguredFeatures;
 import net.mrunknown.mechaniummod.world.gen.ModOreGeneration;
 import org.slf4j.Logger;
@@ -20,5 +21,7 @@ public class MechaniumMod implements ModInitializer {
         ModBlocks.registerModBlocks();
 
         ModOreGeneration.generateOres();
+
+        ModLootTableModifiers.modifyLootTables();
     }
 }
