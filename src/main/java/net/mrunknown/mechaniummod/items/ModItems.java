@@ -30,7 +30,14 @@ public class ModItems {
     public static final Item MECHAFRUIT = registerItem("mechafruit",
             new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)
                     .food(new FoodComponent.Builder().hunger(4).saturationModifier(4f)
-                            .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 200), 1f).build())));
+                            .statusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 200), 1f)
+                            .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 400), 1f)
+                            .statusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, 600), 1f)
+                            .statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 600),1f)
+                            .build())));
+
+    public static final Item INCOMPLETE_MECHAFRUIT_SEED = registerItem("incomplete_mechafruit_seed",
+            new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(MechaniumMod.MOD_ID, name), item);

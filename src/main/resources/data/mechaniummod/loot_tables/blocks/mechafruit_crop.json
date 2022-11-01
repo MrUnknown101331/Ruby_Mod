@@ -27,7 +27,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "mechaniummod:mechafruit_seed"
+              "name": "mechaniummod:incomplete_mechafruit_seed"
             }
           ]
         }
@@ -59,7 +59,7 @@
               }
             }
           ],
-          "name": "mechaniummod:mechafruit_seed"
+          "name": "mechaniummod:incomplete_mechafruit_seed"
         }
       ],
       "rolls": 1.0
