@@ -15,7 +15,9 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.mrunknown.mechaniummod.blocks.Custom.GemInfusingStationBlock;
 import net.mrunknown.mechaniummod.items.ModItems;
 import net.mrunknown.mechaniummod.recipe.GemInfusingRecipe;
 import net.mrunknown.mechaniummod.screens.GemInfusingScreenHandler;
@@ -75,6 +77,62 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return new GemInfusingScreenHandler(syncId, inv, this, this.propertyDelegate);
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        Direction localDir = this.getWorld().getBlockState(this.pos).get(GemInfusingStationBlock.FACING);
+
+        if (side == Direction.UP) {
+            return slot == 0;
+        }
+
+        if (side == Direction.DOWN) {
+            return false;
+        }
+
+        // Back insert 1
+        // Right insert 1
+        // Left insert 0
+        return switch (localDir) {
+            default -> checkInsert(side.getOpposite(), slot);
+            case EAST -> checkInsert(side.rotateYClockwise(), slot);
+            case SOUTH -> checkInsert(side, slot);
+            case WEST -> checkInsert(side.rotateYCounterclockwise(), slot);
+        };
+    }
+
+    public boolean checkInsert(Direction direction, int slot) {
+        return direction == Direction.NORTH && slot == 1 ||
+                direction == Direction.EAST && slot == 1 ||
+                direction == Direction.WEST && slot == 0;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        Direction localDir = this.getWorld().getBlockState(this.pos).get(GemInfusingStationBlock.FACING);
+
+        if (side == Direction.UP) {
+            return false;
+        }
+
+        // Down extract 2
+        if (side == Direction.DOWN) {
+            return slot == 2;
+        }
+
+        // Front extract 2
+        // Right extract 2
+        return switch (localDir) {
+            default -> side.getOpposite() == Direction.SOUTH && slot == 2 ||
+                    side.getOpposite() == Direction.EAST && slot == 2;
+            case EAST -> side.rotateYClockwise() == Direction.SOUTH && slot == 2 ||
+                    side.rotateYClockwise() == Direction.EAST && slot == 2;
+            case SOUTH -> side == Direction.SOUTH && slot == 2 ||
+                    side == Direction.EAST && slot == 2;
+            case WEST -> side.rotateYCounterclockwise() == Direction.SOUTH && slot == 2 ||
+                    side.rotateYCounterclockwise() == Direction.EAST && slot == 2;
+        };
     }
 
     @Override
