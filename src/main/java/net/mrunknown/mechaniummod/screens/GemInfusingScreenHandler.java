@@ -8,9 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import org.jetbrains.annotations.Nullable;
 
 public class GemInfusingScreenHandler extends ScreenHandler {
 
@@ -28,9 +26,9 @@ public class GemInfusingScreenHandler extends ScreenHandler {
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = delegate;
 
-        this.addSlot(new Slot(inventory, 0, 12, 15));
-        this.addSlot(new Slot(inventory, 1, 86, 15));
-        this.addSlot(new Slot(inventory, 2, 86, 60));
+        this.addSlot(new Slot(inventory, 0, 25, 16));
+        this.addSlot(new Slot(inventory, 1, 25, 54));
+        this.addSlot(new Slot(inventory, 2, 85, 36));
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
