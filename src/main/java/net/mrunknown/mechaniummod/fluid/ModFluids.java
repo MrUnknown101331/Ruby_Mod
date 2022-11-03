@@ -20,7 +20,7 @@ public class ModFluids {
     public static Block MECHAFRUIT_JUICE_BLOCK;
     public static Item MECHAFRUIT_JUICE_BUCKET;
 
-    public static void register() {
+    public static void registerFluids() {
         STILL_MECHAFRUIT_JUICE = Registry.register(Registry.FLUID,
                 new Identifier(MechaniumMod.MOD_ID, "mechafruit_juice"), new MechaFruitJuiceFluid.Still());
 

@@ -4,10 +4,13 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.mrunknown.mechaniummod.blocks.ModBlocks;
 import net.mrunknown.mechaniummod.fluid.ModFluids;
+import net.mrunknown.mechaniummod.screens.GemInfusingScreen;
+import net.mrunknown.mechaniummod.screens.ModScreenHandlers;
 
 public class MechaniumModClient implements ClientModInitializer {
     @Override
@@ -23,5 +26,9 @@ public class MechaniumModClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(),
                 ModFluids.STILL_MECHAFRUIT_JUICE, ModFluids.FLOWING_MECHAFRUIT_JUICE);
+
+        HandledScreens.register(ModScreenHandlers.GEM_INFUSING_SCREEN_HANDLER, GemInfusingScreen::new);
+
     }
+
 }

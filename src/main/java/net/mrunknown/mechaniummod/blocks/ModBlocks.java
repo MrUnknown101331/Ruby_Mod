@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.Registry;
 import net.mrunknown.mechaniummod.MechaniumMod;
+import net.mrunknown.mechaniummod.blocks.Custom.GemInfusingStationBlock;
 import net.mrunknown.mechaniummod.blocks.Custom.MechaFruitCropBlock;
 import net.mrunknown.mechaniummod.blocks.Custom.MechaniumLampBlock;
 import net.mrunknown.mechaniummod.items.ModItemGroup;
@@ -49,6 +50,9 @@ public class ModBlocks {
 
     public static final Block MECHAFRUIT_CROP = registerBlockWithoutItem("mechafruit_crop",
             new MechaFruitCropBlock(FabricBlockSettings.copy(Blocks.WHEAT)));
+
+    public static final Block GEM_INFUSING_STATION = registerBlock("gem_infusing_station",
+            new GemInfusingStationBlock(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool().nonOpaque()), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     private static Block registerBlock(String name, Block block, ItemGroup group) {
         registerBlockItem(name, block, group);
