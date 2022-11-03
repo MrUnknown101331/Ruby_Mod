@@ -17,8 +17,11 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.mrunknown.mechaniummod.items.ModItems;
+import net.mrunknown.mechaniummod.recipe.GemInfusingRecipe;
 import net.mrunknown.mechaniummod.screens.GemInfusingScreenHandler;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
@@ -115,10 +118,14 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
             inventory.setStack(i, entity.getStack(i));
         }
 
+        Optional<GemInfusingRecipe> recipe = entity.getWorld().getRecipeManager()
+                .getFirstMatch(GemInfusingRecipe.Type.INSTANCE, inventory, entity.getWorld());
+
         if (hasRecipe(entity)) {
+            entity.removeStack(0, 1);
             entity.removeStack(1, 1);
 
-            entity.setStack(2, new ItemStack(ModItems.MECHANIUM, entity.getStack(2).getCount() + 1));
+            entity.setStack(2, new ItemStack(recipe.get().getOutput().getItem(), entity.getStack(2).getCount() + 1));
 
             entity.resetProgress();
         }
@@ -130,10 +137,11 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
             inventory.setStack(i, entity.getStack(i));
         }
 
-        boolean hasRawGemInFirstSlot = entity.getStack(1).getItem() == ModItems.RAW_MECHANIUM;
+        Optional<GemInfusingRecipe> match = entity.getWorld().getRecipeManager()
+                .getFirstMatch(GemInfusingRecipe.Type.INSTANCE, inventory, entity.getWorld());
 
-        return hasRawGemInFirstSlot && canInsertAmountIntoOutputSlot(inventory)
-                && canInsertItemIntoOutputSlot(inventory, ModItems.MECHANIUM);
+        return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
+                && canInsertItemIntoOutputSlot(inventory, match.get().getOutput().getItem());
     }
 
     private static boolean canInsertItemIntoOutputSlot(SimpleInventory inventory, Item output) {

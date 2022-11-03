@@ -1,0 +1,14 @@
+{
+  "type": "mechaniummod:gem_infusing",
+  "ingredients": [
+    {
+      "item": "mechaniummod:mechanium"
+    },
+    {
+      "item": "mechaniummod:incomplete_mechafruit_seed"
+    }
+  ],
+  "output": {
+    "item": "mechaniummod:mechafruit_seed"
+  }
+}

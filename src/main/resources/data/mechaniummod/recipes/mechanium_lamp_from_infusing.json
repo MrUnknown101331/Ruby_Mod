@@ -1,0 +1,14 @@
+{
+  "type": "mechaniummod:gem_infusing",
+  "ingredients": [
+    {
+      "item": "mechaniummod:mechanium"
+    },
+    {
+      "item": "minecraft:redstone_lamp"
+    }
+  ],
+  "output": {
+    "item": "mechaniummod:mechanium_lamp"
+  }
+}
