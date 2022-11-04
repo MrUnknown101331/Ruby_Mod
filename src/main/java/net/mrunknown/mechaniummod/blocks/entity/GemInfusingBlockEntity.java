@@ -1,5 +1,10 @@
 package net.mrunknown.mechaniummod.blocks.entity;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,24 +14,42 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.mrunknown.mechaniummod.blocks.Custom.GemInfusingStationBlock;
-import net.mrunknown.mechaniummod.items.ModItems;
+import net.mrunknown.mechaniummod.networking.ModMessages;
 import net.mrunknown.mechaniummod.recipe.GemInfusingRecipe;
 import net.mrunknown.mechaniummod.screens.GemInfusingScreenHandler;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
 
-public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class GemInfusingBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 64, 64) {
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+            if (!world.isClient()) {
+                PacketByteBuf data = PacketByteBufs.create();
+                data.writeLong(amount);
+                data.writeBlockPos(pos);
+
+                for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
+                    ServerPlayNetworking.send(player, ModMessages.ENERGY_SYNC, data);
+                }
+            }
+        }
+    };
 
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -77,6 +100,15 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return new GemInfusingScreenHandler(syncId, inv, this, this.propertyDelegate);
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeBlockPos(this.pos);
+    }
+
+    public void setEnergyLevel(long energyLevel) {
+        this.energyStorage.amount = energyLevel;
     }
 
     @Override
@@ -140,6 +172,7 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
         nbt.putInt("gem_infusing_station.progress", progress);
+        nbt.putLong("gem_infusing_station.energy", energyStorage.amount);
     }
 
     @Override
@@ -147,6 +180,7 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
         Inventories.readNbt(nbt, inventory);
         super.readNbt(nbt);
         progress = nbt.getInt("gem_infusing_station.progress");
+        energyStorage.amount = nbt.getLong("gem_infusing_station.energy");
     }
 
     private void resetProgress() {
@@ -158,8 +192,9 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
             return;
         }
 
-        if (hasRecipe(entity)) {
+        if (hasRecipe(entity) && hasEnoughEnergy(entity)) {
             entity.progress++;
+            extractEnergy(entity);
             markDirty(world, blockPos, state);
             if (entity.progress >= entity.maxProgress) {
                 craftItem(entity);
@@ -168,6 +203,17 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
             entity.resetProgress();
             markDirty(world, blockPos, state);
         }
+    }
+
+    private static void extractEnergy(GemInfusingBlockEntity entity) {
+        try (Transaction transaction = Transaction.openOuter()) {
+            entity.energyStorage.extract(16, transaction);
+            transaction.commit();
+        }
+    }
+
+    private static boolean hasEnoughEnergy(GemInfusingBlockEntity entity) {
+        return entity.energyStorage.amount >= 16;
     }
 
     private static void craftItem(GemInfusingBlockEntity entity) {
@@ -209,4 +255,6 @@ public class GemInfusingBlockEntity extends BlockEntity implements NamedScreenHa
     private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory) {
         return inventory.getStack(2).getMaxCount() > inventory.getStack(2).getCount();
     }
+
+
 }

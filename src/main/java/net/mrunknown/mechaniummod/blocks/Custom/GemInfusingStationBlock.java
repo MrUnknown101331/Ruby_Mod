@@ -61,7 +61,7 @@ public class GemInfusingStationBlock extends BlockWithEntity implements BlockEnt
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new GemInfusingBlockEntity(pos,state);
+        return new GemInfusingBlockEntity(pos, state);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class GemInfusingStationBlock extends BlockWithEntity implements BlockEnt
     public ActionResult onUse(BlockState state, World world, BlockPos pos,
                               PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+            NamedScreenHandlerFactory screenHandlerFactory = ((GemInfusingBlockEntity) world.getBlockEntity(pos));
 
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);
@@ -98,6 +98,6 @@ public class GemInfusingStationBlock extends BlockWithEntity implements BlockEnt
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return  checkType(type, ModBlockEntities.GEM_INFUSING_STATION, GemInfusingBlockEntity::tick);
+        return checkType(type, ModBlockEntities.GEM_INFUSING_STATION, GemInfusingBlockEntity::tick);
     }
 }
