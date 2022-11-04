@@ -1,6 +1,5 @@
 package net.mrunknown.mechaniummod.items;
 
-import javafx.scene.effect.Effect;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
