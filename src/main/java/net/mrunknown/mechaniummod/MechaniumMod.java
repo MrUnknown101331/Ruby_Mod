@@ -5,6 +5,7 @@ import net.mrunknown.mechaniummod.blocks.ModBlocks;
 import net.mrunknown.mechaniummod.blocks.entity.ModBlockEntities;
 import net.mrunknown.mechaniummod.fluid.ModFluids;
 import net.mrunknown.mechaniummod.items.ModItems;
+import net.mrunknown.mechaniummod.networking.ModMessages;
 import net.mrunknown.mechaniummod.recipe.ModRecipes;
 import net.mrunknown.mechaniummod.screens.ModScreenHandlers;
 import net.mrunknown.mechaniummod.utils.ModLootTableModifiers;
@@ -25,13 +26,14 @@ public class MechaniumMod implements ModInitializer {
         ModBlocks.registerModBlocks();
 
         ModOreGeneration.generateOres();
-
         ModLootTableModifiers.modifyLootTables();
 
         ModBlockEntities.registerBlockEntities();
         ModScreenHandlers.registerAllScreenHandlers();
 
         ModRecipes.registerRecipes();
+
+        ModMessages.registerC2SPackets();
 
         ModFluids.registerFluids();
     }

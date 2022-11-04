@@ -9,6 +9,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.mrunknown.mechaniummod.blocks.ModBlocks;
 import net.mrunknown.mechaniummod.fluid.ModFluids;
+import net.mrunknown.mechaniummod.networking.ModMessages;
 import net.mrunknown.mechaniummod.screens.GemInfusingScreen;
 import net.mrunknown.mechaniummod.screens.ModScreenHandlers;
 
@@ -29,6 +30,9 @@ public class MechaniumModClient implements ClientModInitializer {
 
         HandledScreens.register(ModScreenHandlers.GEM_INFUSING_SCREEN_HANDLER, GemInfusingScreen::new);
 
+        ModMessages.registerS2CPackets();
+
     }
+
 
 }
