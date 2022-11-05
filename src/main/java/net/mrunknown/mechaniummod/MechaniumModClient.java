@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.mrunknown.mechaniummod.blocks.ModBlocks;
 import net.mrunknown.mechaniummod.fluid.ModFluids;
 import net.mrunknown.mechaniummod.networking.ModMessages;
+import net.mrunknown.mechaniummod.screens.FruitCrusherScreen;
 import net.mrunknown.mechaniummod.screens.GemInfusingScreen;
 import net.mrunknown.mechaniummod.screens.ModScreenHandlers;
 
@@ -29,6 +30,7 @@ public class MechaniumModClient implements ClientModInitializer {
                 ModFluids.STILL_MECHAFRUIT_JUICE, ModFluids.FLOWING_MECHAFRUIT_JUICE);
 
         HandledScreens.register(ModScreenHandlers.GEM_INFUSING_SCREEN_HANDLER, GemInfusingScreen::new);
+        HandledScreens.register(ModScreenHandlers.FRUIT_CRUSHER_SCREEN_HANDLER, FruitCrusherScreen::new);
 
         ModMessages.registerS2CPackets();
 

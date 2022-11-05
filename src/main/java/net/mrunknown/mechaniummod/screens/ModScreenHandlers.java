@@ -10,7 +10,11 @@ public class ModScreenHandlers {
     public static ScreenHandlerType<GemInfusingScreenHandler> GEM_INFUSING_SCREEN_HANDLER =
             new ExtendedScreenHandlerType<>(GemInfusingScreenHandler::new);
 
+    public static ScreenHandlerType<FruitCrusherScreenHandler> FRUIT_CRUSHER_SCREEN_HANDLER =
+            new ExtendedScreenHandlerType<>(FruitCrusherScreenHandler::new);
+
     public static void registerAllScreenHandlers() {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(MechaniumMod.MOD_ID, "gem_infusing"), GEM_INFUSING_SCREEN_HANDLER);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(MechaniumMod.MOD_ID, "fruit_crushing"), FRUIT_CRUSHER_SCREEN_HANDLER);
     }
 }

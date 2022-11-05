@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mechaniummod:block/fruit_crusher"
+    },
+    "facing=south": {
+      "model": "mechaniummod:block/fruit_crusher",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mechaniummod:block/fruit_crusher",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "mechaniummod:block/fruit_crusher",
+      "y": 90
+    }
+  }
+}

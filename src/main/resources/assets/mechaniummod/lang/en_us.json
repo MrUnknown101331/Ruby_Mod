@@ -18,5 +18,10 @@
   "block.mechaniummod.endstone_mechanium_ore": "EndStone Mechanium Ore",
   "block.mechaniummod.mechanium_lamp": "Mechanium Lamp",
   "block.mechaniummod.gem_infusing_station": "Gem Infusing Station",
-  "block.mechaniummod.mechafruit_crop": "Mecha Fruit Crop"
+  "block.mechaniummod.fruit_crusher": "Fruit Crusher",
+  "block.mechaniummod.mechafruit_crop": "Mecha Fruit Crop",
+  "block.mechaniummod.mechafruit_juice": "Mecha Fruit Juice",
+
+  "mechaniummod.tooltip.liquid.amount.with.capacity": "%s / %s mB",
+  "mechaniummod.tooltip.liquid.amount": "%s mB"
 }
