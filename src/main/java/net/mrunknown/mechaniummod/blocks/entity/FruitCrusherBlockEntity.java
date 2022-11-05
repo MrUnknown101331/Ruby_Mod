@@ -38,6 +38,7 @@ import net.mrunknown.mechaniummod.utils.FluidStack;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+@SuppressWarnings("UnstableApiUsage")
 public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 64, 64) {
@@ -100,24 +101,17 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
         super(ModBlockEntities.FRUIT_CRUSHER, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
-                switch (index) {
-                    case 0:
-                        return FruitCrusherBlockEntity.this.progress;
-                    case 1:
-                        return FruitCrusherBlockEntity.this.maxProgress;
-                    default:
-                        return 0;
-                }
+                return switch (index) {
+                    case 0 -> FruitCrusherBlockEntity.this.progress;
+                    case 1 -> FruitCrusherBlockEntity.this.maxProgress;
+                    default -> 0;
+                };
             }
 
             public void set(int index, int value) {
                 switch (index) {
-                    case 0:
-                        FruitCrusherBlockEntity.this.progress = value;
-                        break;
-                    case 1:
-                        FruitCrusherBlockEntity.this.maxProgress = value;
-                        break;
+                    case 0 -> FruitCrusherBlockEntity.this.progress = value;
+                    case 1 -> FruitCrusherBlockEntity.this.maxProgress = value;
                 }
             }
 
@@ -315,14 +309,5 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
     private static boolean canInsertFluidAmountIntoOutputSlot(FruitCrusherBlockEntity entity) {
         return entity.fluidStorage.getCapacity() > entity.fluidStorage.amount;
     }
-
-    private static boolean canInsertItemIntoOutputSlot(SimpleInventory inventory, Item output) {
-        return inventory.getStack(1).getItem() == output || inventory.getStack(1).isEmpty();
-    }
-
-    private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory) {
-        return inventory.getStack(1).getMaxCount() > inventory.getStack(1).getCount();
-    }
-
 
 }
