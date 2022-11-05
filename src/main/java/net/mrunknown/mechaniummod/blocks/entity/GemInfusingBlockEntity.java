@@ -40,13 +40,7 @@ public class GemInfusingBlockEntity extends BlockEntity implements ExtendedScree
         protected void onFinalCommit() {
             markDirty();
             if (!world.isClient()) {
-                PacketByteBuf data = PacketByteBufs.create();
-                data.writeLong(amount);
-                data.writeBlockPos(pos);
-
-                for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
-                    ServerPlayNetworking.send(player, ModMessages.ENERGY_SYNC, data);
-                }
+                sendEnergyPacket();
             }
         }
     };
@@ -86,6 +80,16 @@ public class GemInfusingBlockEntity extends BlockEntity implements ExtendedScree
         };
     }
 
+    private void sendEnergyPacket() {
+        PacketByteBuf data = PacketByteBufs.create();
+        data.writeLong(energyStorage.amount);
+        data.writeBlockPos(getPos());
+
+        for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
+            ServerPlayNetworking.send(player, ModMessages.ENERGY_SYNC, data);
+        }
+    }
+
     @Override
     public DefaultedList<ItemStack> getItems() {
         return this.inventory;
@@ -99,6 +103,7 @@ public class GemInfusingBlockEntity extends BlockEntity implements ExtendedScree
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        sendEnergyPacket();
         return new GemInfusingScreenHandler(syncId, inv, this, this.propertyDelegate);
     }
 
