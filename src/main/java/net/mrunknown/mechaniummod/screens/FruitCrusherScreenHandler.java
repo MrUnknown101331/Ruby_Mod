@@ -27,15 +27,16 @@ public class FruitCrusherScreenHandler extends ScreenHandler {
 
     public FruitCrusherScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity entity, PropertyDelegate delegate) {
         super(ModScreenHandlers.FRUIT_CRUSHER_SCREEN_HANDLER, syncId);
-        checkSize(((Inventory) entity), 2);
+        checkSize(((Inventory) entity), 3);
         this.inventory = (Inventory) entity;
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = delegate;
         this.blockEntity = (FruitCrusherBlockEntity) entity;
         this.fluidStack = new FluidStack(blockEntity.fluidStorage.variant, blockEntity.fluidStorage.amount);
 
-        this.addSlot(new Slot(inventory, 0, 25, 54));
-        this.addSlot(new Slot(inventory, 1, 85, 36));
+        this.addSlot(new Slot(inventory, 0, 10, 37));
+        this.addSlot(new Slot(inventory, 1, 110, 20));
+        this.addSlot(new Slot(inventory, 2, 110, 54));
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 public class FruitCrusherScreen extends HandledScreen<FruitCrusherScreenHandler> {
     private static final Identifier TEXTURE =
-            new Identifier(MechaniumMod.MOD_ID, "textures/gui/fruit_crusher.png");
+            new Identifier(MechaniumMod.MOD_ID, "textures/gui/fruit_crusher_gui.png");
 
     private EnergyInfoArea energyInfoArea;
     private FluidStackRenderer fluidStackRenderer;
@@ -56,7 +56,7 @@ public class FruitCrusherScreen extends HandledScreen<FruitCrusherScreenHandler>
 
         renderProgressArrow(matrices, x, y);
         energyInfoArea.draw(matrices);
-        fluidStackRenderer.drawFluid(matrices, handler.fluidStack, x + 55, y + 15, 16, 61,
+        fluidStackRenderer.drawFluid(matrices, handler.fluidStack, x + 66, y + 15, 16, 61,
                 FluidStack.convertDropletsToMb(FluidConstants.BUCKET) * 20);
     }
 
@@ -66,7 +66,7 @@ public class FruitCrusherScreen extends HandledScreen<FruitCrusherScreenHandler>
         int y = (height - backgroundHeight) / 2;
 
         renderEnergyAreaTooltips(matrices, mouseX, mouseY, x, y);
-        renderFluidTooltip(matrices, mouseX, mouseY, x, y, handler.fluidStack, 55, 15, fluidStackRenderer);
+        renderFluidTooltip(matrices, mouseX, mouseY, x, y, handler.fluidStack, 66, 15, fluidStackRenderer);
     }
 
     private void renderFluidTooltip(MatrixStack matrices, int mouseX, int mouseY, int x, int y,
@@ -94,7 +94,7 @@ public class FruitCrusherScreen extends HandledScreen<FruitCrusherScreenHandler>
 
     private void renderProgressArrow(MatrixStack matrices, int x, int y) {
         if (handler.isCrafting()) {
-            drawTexture(matrices, x + 105, y + 33, 176, 0, 8, handler.getScaledProgress());
+            drawTexture(matrices, x + 33, y + 42, 178, 0, handler.getScaledProgress(), 8);
         }
     }
 

@@ -27,13 +27,6 @@ public class GemInfusingStationBlock extends BlockWithEntity implements BlockEnt
         super(settings);
     }
 
-    private static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 11, 16);
-
-    @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
-    }
-
     @Nullable
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {

@@ -27,7 +27,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.mrunknown.mechaniummod.blocks.Custom.FruitCrusherBlock;
 import net.mrunknown.mechaniummod.fluid.ModFluids;
 import net.mrunknown.mechaniummod.items.ModItems;
 import net.mrunknown.mechaniummod.networking.ModMessages;
@@ -37,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 64, 64) {
         @Override
         protected void onFinalCommit() {
@@ -178,6 +180,37 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
         fluidStorage.amount = nbt.getLong("fruit_crusher.fluid");
     }
 
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        return switch (slot) {
+            case 0 -> stack.getItem() != Items.BUCKET;
+            case 1 -> stack.getItem() == Items.BUCKET;
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        Direction localDir = this.getWorld().getBlockState(this.pos).get(FruitCrusherBlock.FACING);
+
+        if (side == Direction.UP) {
+            return false;
+        }
+
+        // Down extract 2
+        if (side == Direction.DOWN) {
+            return slot == 2;
+        }
+
+        // Right extract 2
+        return switch (localDir) {
+            default -> side.getOpposite() == Direction.EAST && slot == 2;
+            case EAST -> side.rotateYClockwise() == Direction.EAST && slot == 2;
+            case SOUTH -> side == Direction.EAST && slot == 2;
+            case WEST -> side.rotateYCounterclockwise() == Direction.EAST && slot == 2;
+        };
+    }
+
     private void resetProgress() {
         this.progress = 0;
     }
@@ -205,9 +238,10 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
     }
 
     private static void transferFluidFromFluidTank(FruitCrusherBlockEntity entity) {
-        if (hasEnoughFluid(entity)) {
+        if (hasEnoughFluid(entity) && entity.getStack(2).isEmpty()) {
             extractFluid(entity, FluidStack.convertDropletsToMb(FluidConstants.BUCKET));
-            entity.setStack(1, new ItemStack(ModFluids.MECHAFRUIT_JUICE_BUCKET));
+            entity.setStack(2, new ItemStack(ModFluids.MECHAFRUIT_JUICE_BUCKET));
+            entity.removeStack(1, 1);
         }
     }
 
@@ -217,7 +251,7 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
 
 
     private static boolean hasBucketInSlot(FruitCrusherBlockEntity entity) {
-        return entity.getStack(1).getItem() == Items.BUCKET && entity.getStack(1).getCount() == 1;
+        return entity.getStack(1).getItem() == Items.BUCKET;
     }
 
     private static void insertFluidToFluidTank(FruitCrusherBlockEntity entity) {
@@ -234,10 +268,6 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
                     amount, transaction);
             transaction.commit();
         }
-    }
-
-    private static boolean hasFluidSourceInSlot(FruitCrusherBlockEntity entity) {
-        return entity.getStack(1).getItem() == ModFluids.MECHAFRUIT_JUICE_BUCKET;
     }
 
     private static void extractEnergy(FruitCrusherBlockEntity entity) {
