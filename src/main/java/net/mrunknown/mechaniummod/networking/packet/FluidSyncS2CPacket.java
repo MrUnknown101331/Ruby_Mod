@@ -6,7 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
+import net.mrunknown.mechaniummod.blocks.entity.FluidInjectorBlockEntity;
 import net.mrunknown.mechaniummod.blocks.entity.FruitCrusherBlockEntity;
+import net.mrunknown.mechaniummod.screens.FluidInjectorScreenHandler;
 import net.mrunknown.mechaniummod.screens.FruitCrusherScreenHandler;
 import net.mrunknown.mechaniummod.utils.FluidStack;
 
@@ -22,6 +24,16 @@ public class FluidSyncS2CPacket {
                 blockEntity.setFluidLevel(variant, fluidLevel);
 
                 if (client.player.currentScreenHandler instanceof FruitCrusherScreenHandler screenHandler &&
+                        screenHandler.blockEntity.getPos().equals(position)) {
+                    blockEntity.setFluidLevel(variant, fluidLevel);
+                    screenHandler.setFluid(new FluidStack(variant, fluidLevel));
+                }
+            }
+
+            if (client.world.getBlockEntity(position) instanceof FluidInjectorBlockEntity blockEntity) {
+                blockEntity.setFluidLevel(variant, fluidLevel);
+
+                if (client.player.currentScreenHandler instanceof FluidInjectorScreenHandler screenHandler &&
                         screenHandler.blockEntity.getPos().equals(position)) {
                     blockEntity.setFluidLevel(variant, fluidLevel);
                     screenHandler.setFluid(new FluidStack(variant, fluidLevel));

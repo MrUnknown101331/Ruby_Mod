@@ -14,14 +14,14 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.mrunknown.mechaniummod.blocks.entity.FruitCrusherBlockEntity;
+import net.mrunknown.mechaniummod.blocks.entity.FluidInjectorBlockEntity;
 import net.mrunknown.mechaniummod.blocks.entity.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
-public class FruitCrusherBlock extends BlockWithEntity implements BlockEntityProvider {
+public class FluidInjectorBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
-    public FruitCrusherBlock(Settings settings) {
+    public FluidInjectorBlock(Settings settings) {
         super(settings);
     }
 
@@ -52,7 +52,7 @@ public class FruitCrusherBlock extends BlockWithEntity implements BlockEntityPro
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new FruitCrusherBlockEntity(pos, state);
+        return new FluidInjectorBlockEntity(pos, state);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class FruitCrusherBlock extends BlockWithEntity implements BlockEntityPro
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof FruitCrusherBlockEntity) {
-                ItemScatterer.spawn(world, pos, (FruitCrusherBlockEntity) blockEntity);
+            if (blockEntity instanceof FluidInjectorBlockEntity) {
+                ItemScatterer.spawn(world, pos, (FluidInjectorBlockEntity) blockEntity);
                 world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -76,7 +76,7 @@ public class FruitCrusherBlock extends BlockWithEntity implements BlockEntityPro
     public ActionResult onUse(BlockState state, World world, BlockPos pos,
                               PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = ((FruitCrusherBlockEntity) world.getBlockEntity(pos));
+            NamedScreenHandlerFactory screenHandlerFactory = ((FluidInjectorBlockEntity) world.getBlockEntity(pos));
 
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);
@@ -89,6 +89,6 @@ public class FruitCrusherBlock extends BlockWithEntity implements BlockEntityPro
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModBlockEntities.FRUIT_CRUSHER, FruitCrusherBlockEntity::tick);
+        return checkType(type, ModBlockEntities.FLUID_INJECTOR, FluidInjectorBlockEntity::tick);
     }
 }

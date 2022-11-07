@@ -1,0 +1,11 @@
+{
+  "type": "mechaniummod:fluid_injecting",
+  "ingredients": [
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "output": {
+    "item": "mechaniummod:mob_catcher_wand"
+  }
+}

@@ -10,5 +10,10 @@ public class ModRecipes {
                 GemInfusingRecipe.Serializer.INSTANCE);
         Registry.register(Registry.RECIPE_TYPE, new Identifier(MechaniumMod.MOD_ID, GemInfusingRecipe.Type.ID),
                 GemInfusingRecipe.Type.INSTANCE);
+
+        Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MechaniumMod.MOD_ID, FluidInjectingRecipe.Serializer.ID),
+                FluidInjectingRecipe.Serializer.INSTANCE);
+        Registry.register(Registry.RECIPE_TYPE, new Identifier(MechaniumMod.MOD_ID, FluidInjectingRecipe.Type.ID),
+                FluidInjectingRecipe.Type.INSTANCE);
     }
 }

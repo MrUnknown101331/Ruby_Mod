@@ -13,10 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.Registry;
 import net.mrunknown.mechaniummod.MechaniumMod;
-import net.mrunknown.mechaniummod.blocks.Custom.FruitCrusherBlock;
-import net.mrunknown.mechaniummod.blocks.Custom.GemInfusingStationBlock;
-import net.mrunknown.mechaniummod.blocks.Custom.MechaFruitCropBlock;
-import net.mrunknown.mechaniummod.blocks.Custom.MechaniumLampBlock;
+import net.mrunknown.mechaniummod.blocks.Custom.*;
 import net.mrunknown.mechaniummod.items.ModItemGroup;
 
 public class ModBlocks {
@@ -57,6 +54,8 @@ public class ModBlocks {
 
     public static final Block FRUIT_CRUSHER = registerBlock("fruit_crusher",
             new FruitCrusherBlock(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool().nonOpaque()), ModItemGroup.MECHANIUM_ITEM_GROUP);
+    public static final Block FLUID_INJECTOR = registerBlock("fluid_injector",
+            new FluidInjectorBlock(FabricBlockSettings.of(Material.STONE).strength(4f).requiresTool().nonOpaque()), ModItemGroup.MECHANIUM_ITEM_GROUP);
 
     private static Block registerBlock(String name, Block block, ItemGroup group) {
         registerBlockItem(name, block, group);

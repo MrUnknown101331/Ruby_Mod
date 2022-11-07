@@ -15,6 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -28,18 +29,22 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.mrunknown.mechaniummod.blocks.Custom.FruitCrusherBlock;
+import net.mrunknown.mechaniummod.blocks.Custom.FluidInjectorBlock;
 import net.mrunknown.mechaniummod.fluid.ModFluids;
 import net.mrunknown.mechaniummod.items.ModItems;
 import net.mrunknown.mechaniummod.networking.ModMessages;
-import net.mrunknown.mechaniummod.screens.FruitCrusherScreenHandler;
+import net.mrunknown.mechaniummod.recipe.FluidInjectingRecipe;
+import net.mrunknown.mechaniummod.recipe.GemInfusingRecipe;
+import net.mrunknown.mechaniummod.screens.FluidInjectorScreenHandler;
 import net.mrunknown.mechaniummod.utils.FluidStack;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+import java.util.Optional;
+
 @SuppressWarnings("UnstableApiUsage")
 
-public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
+public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(30000, 64, 64) {
         @Override
@@ -97,21 +102,21 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
     private int progress = 0;
     private int maxProgress = 72;
 
-    public FruitCrusherBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.FRUIT_CRUSHER, pos, state);
+    public FluidInjectorBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.FLUID_INJECTOR, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> FruitCrusherBlockEntity.this.progress;
-                    case 1 -> FruitCrusherBlockEntity.this.maxProgress;
+                    case 0 -> FluidInjectorBlockEntity.this.progress;
+                    case 1 -> FluidInjectorBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
 
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> FruitCrusherBlockEntity.this.progress = value;
-                    case 1 -> FruitCrusherBlockEntity.this.maxProgress = value;
+                    case 0 -> FluidInjectorBlockEntity.this.progress = value;
+                    case 1 -> FluidInjectorBlockEntity.this.maxProgress = value;
                 }
             }
 
@@ -128,7 +133,7 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
 
     @Override
     public Text getDisplayName() {
-        return Text.literal("Fruit Crusher");
+        return Text.literal("Fluid Injector");
     }
 
     @Nullable
@@ -136,7 +141,7 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         sendEnergyPacket();
         sendFluidPacket();
-        return new FruitCrusherScreenHandler(syncId, inv, this, this.propertyDelegate);
+        return new FluidInjectorScreenHandler(syncId, inv, this, this.propertyDelegate);
     }
 
     @Override
@@ -156,36 +161,36 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
-        nbt.putInt("fruit_crusher.progress", progress);
-        nbt.putLong("fruit_crusher.energy", energyStorage.amount);
-        nbt.put("fruit_crusher.variant", fluidStorage.variant.toNbt());
-        nbt.putLong("fruit_crusher.fluid", fluidStorage.amount);
+        super.writeNbt(nbt);
+        nbt.putInt("fluid_injector.progress", progress);
+        nbt.putLong("fluid_injector.energy", energyStorage.amount);
+        nbt.put("fluid_injector.variant", fluidStorage.variant.toNbt());
+        nbt.putLong("fluid_injector.fluid", fluidStorage.amount);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
         Inventories.readNbt(nbt, inventory);
         super.readNbt(nbt);
-        progress = nbt.getInt("fruit_crusher.progress");
-        energyStorage.amount = nbt.getLong("fruit_crusher.energy");
-        fluidStorage.variant = FluidVariant.fromNbt((NbtCompound) nbt.get("fruit_crusher.variant"));
-        fluidStorage.amount = nbt.getLong("fruit_crusher.fluid");
+        progress = nbt.getInt("fluid_injector.progress");
+        energyStorage.amount = nbt.getLong("fluid_injector.energy");
+        fluidStorage.variant = FluidVariant.fromNbt((NbtCompound) nbt.get("fluid_injector.variant"));
+        fluidStorage.amount = nbt.getLong("fluid_injector.fluid");
     }
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
         return switch (slot) {
-            case 0 -> stack.getItem() != Items.BUCKET;
-            case 1 -> stack.getItem() == Items.BUCKET;
+            case 0 -> stack.getItem() == ModFluids.MECHAFRUIT_JUICE_BUCKET;
+            case 1 -> stack.getItem() != ModFluids.MECHAFRUIT_JUICE_BUCKET;
             default -> false;
         };
     }
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        Direction localDir = this.getWorld().getBlockState(this.pos).get(FruitCrusherBlock.FACING);
+        Direction localDir = this.getWorld().getBlockState(this.pos).get(FluidInjectorBlock.FACING);
 
         if (side == Direction.UP) {
             return false;
@@ -193,15 +198,18 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
 
         // Down extract 2
         if (side == Direction.DOWN) {
-            return slot == 2;
+            return (slot == 2 || (slot == 0 && stack.getItem() == Items.BUCKET));
         }
 
         // Right extract 2
         return switch (localDir) {
-            default -> side.getOpposite() == Direction.EAST && slot == 2;
-            case EAST -> side.rotateYClockwise() == Direction.EAST && slot == 2;
-            case SOUTH -> side == Direction.EAST && slot == 2;
-            case WEST -> side.rotateYCounterclockwise() == Direction.EAST && slot == 2;
+            default ->
+                    side.getOpposite() == Direction.EAST && (slot == 2 || (slot == 0 && stack.getItem() == Items.BUCKET));
+            case EAST ->
+                    side.rotateYClockwise() == Direction.EAST && (slot == 2 || (slot == 0 && stack.getItem() == Items.BUCKET));
+            case SOUTH -> side == Direction.EAST && (slot == 2 || (slot == 0 && stack.getItem() == Items.BUCKET));
+            case WEST ->
+                    side.rotateYCounterclockwise() == Direction.EAST && (slot == 2 || (slot == 0 && stack.getItem() == Items.BUCKET));
         };
     }
 
@@ -209,16 +217,17 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
         this.progress = 0;
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState state, FruitCrusherBlockEntity entity) {
+
+    public static void tick(World world, BlockPos blockPos, BlockState state, FluidInjectorBlockEntity entity) {
         if (world.isClient()) {
             return;
         }
 
-        if (hasBucketInSlot(entity)) {
-            transferFluidFromFluidTank(entity);
+        if (hasSourceInSlot(entity)) {
+            transferFluidToFluidTank(entity);
         }
 
-        if (hasRecipe(entity) && hasEnoughEnergy(entity)) {
+        if (hasRecipe(entity) && hasEnoughEnergy(entity) && hasEnoughFluid(entity)) {
             entity.progress++;
             extractEnergy(entity);
             markDirty(world, blockPos, state);
@@ -231,24 +240,26 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
         }
     }
 
-    private static void transferFluidFromFluidTank(FruitCrusherBlockEntity entity) {
-        if (hasEnoughFluid(entity) && entity.getStack(2).isEmpty()) {
-            extractFluid(entity, FluidStack.convertDropletsToMb(FluidConstants.BUCKET));
-            entity.setStack(2, new ItemStack(ModFluids.MECHAFRUIT_JUICE_BUCKET));
-            entity.removeStack(1, 1);
+    private static void transferFluidToFluidTank(FluidInjectorBlockEntity entity) {
+        if (canInsertFluidAmountIntoOutputSlot(entity) && canInsertFluidIntoOutputSlot(entity, ModFluids.STILL_MECHAFRUIT_JUICE)) {
+            try (Transaction transaction = Transaction.openOuter()) {
+                entity.fluidStorage.insert(FluidVariant.of(ModFluids.STILL_MECHAFRUIT_JUICE),
+                        FluidStack.convertDropletsToMb(FluidConstants.BUCKET), transaction);
+                transaction.commit();
+            }
+            entity.setStack(0, new ItemStack(Items.BUCKET));
         }
     }
 
-    private static boolean hasEnoughFluid(FruitCrusherBlockEntity entity) {
-        return entity.fluidStorage.amount >= FluidStack.convertDropletsToMb(FluidConstants.BUCKET);
+    private static boolean hasSourceInSlot(FluidInjectorBlockEntity entity) {
+        return entity.getStack(0).getItem() == ModFluids.MECHAFRUIT_JUICE_BUCKET;
     }
 
-
-    private static boolean hasBucketInSlot(FruitCrusherBlockEntity entity) {
-        return entity.getStack(1).getItem() == Items.BUCKET;
+    private static boolean hasEnoughFluid(FluidInjectorBlockEntity entity) {
+        return entity.fluidStorage.amount >= 500;
     }
 
-    private static void insertFluidToFluidTank(FruitCrusherBlockEntity entity) {
+    private static void insertFluidToFluidTank(FluidInjectorBlockEntity entity) {
         try (Transaction transaction = Transaction.openOuter()) {
             entity.fluidStorage.insert(FluidVariant.of(ModFluids.STILL_MECHAFRUIT_JUICE),
                     500, transaction);
@@ -256,7 +267,7 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
         }
     }
 
-    private static void extractFluid(FruitCrusherBlockEntity entity, long amount) {
+    private static void extractFluid(FluidInjectorBlockEntity entity, long amount) {
         try (Transaction transaction = Transaction.openOuter()) {
             entity.fluidStorage.extract(FluidVariant.of(ModFluids.STILL_MECHAFRUIT_JUICE),
                     amount, transaction);
@@ -264,50 +275,64 @@ public class FruitCrusherBlockEntity extends BlockEntity implements ExtendedScre
         }
     }
 
-    private static void extractEnergy(FruitCrusherBlockEntity entity) {
+    private static void extractEnergy(FluidInjectorBlockEntity entity) {
         try (Transaction transaction = Transaction.openOuter()) {
             entity.energyStorage.extract(16, transaction);
             transaction.commit();
         }
     }
 
-    private static boolean hasEnoughEnergy(FruitCrusherBlockEntity entity) {
+    private static boolean hasEnoughEnergy(FluidInjectorBlockEntity entity) {
         return entity.energyStorage.amount >= 16;
     }
 
-    private static void craftItem(FruitCrusherBlockEntity entity) {
+    private static void craftItem(FluidInjectorBlockEntity entity) {
         SimpleInventory inventory = new SimpleInventory(entity.size());
         for (int i = 0; i < entity.size(); i++) {
             inventory.setStack(i, entity.getStack(i));
         }
 
         if (hasRecipe(entity)) {
-            entity.removeStack(0, 1);
+            entity.removeStack(1, 1);
 
-            insertFluidToFluidTank(entity);
+            Optional<FluidInjectingRecipe> recipe = entity.getWorld().getRecipeManager()
+                    .getFirstMatch(FluidInjectingRecipe.Type.INSTANCE, inventory, entity.getWorld());
+
+            entity.setStack(2, new ItemStack(recipe.get().getOutput().getItem(), entity.getStack(2).getCount() + 1));
+            extractFluid(entity, 500);
 
             entity.resetProgress();
         }
     }
 
-    private static boolean hasRecipe(FruitCrusherBlockEntity entity) {
+    private static boolean hasRecipe(FluidInjectorBlockEntity entity) {
         SimpleInventory inventory = new SimpleInventory(entity.size());
         for (int i = 0; i < entity.size(); i++) {
             inventory.setStack(i, entity.getStack(i));
         }
 
-        boolean hasFruitInSlot = inventory.getStack(0).getItem() == ModItems.MECHAFRUIT;
+        Optional<FluidInjectingRecipe> match = entity.getWorld().getRecipeManager()
+                .getFirstMatch(FluidInjectingRecipe.Type.INSTANCE, inventory, entity.getWorld());
 
-        return hasFruitInSlot && canInsertFluidAmountIntoOutputSlot(entity)
-                && canInsertFluidIntoOutputSlot(entity, ModFluids.STILL_MECHAFRUIT_JUICE);
+        return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
+                && canInsertItemIntoOutputSlot(inventory, match.get().getOutput().getItem());
     }
 
-    private static boolean canInsertFluidIntoOutputSlot(FruitCrusherBlockEntity entity, FlowableFluid stillMechafruitJuice) {
+    private static boolean canInsertFluidIntoOutputSlot(FluidInjectorBlockEntity entity, FlowableFluid stillMechafruitJuice) {
         return entity.fluidStorage.variant.getFluid() == stillMechafruitJuice || entity.fluidStorage.variant.isBlank();
     }
 
-    private static boolean canInsertFluidAmountIntoOutputSlot(FruitCrusherBlockEntity entity) {
+    private static boolean canInsertFluidAmountIntoOutputSlot(FluidInjectorBlockEntity entity) {
         return entity.fluidStorage.getCapacity() > entity.fluidStorage.amount;
     }
+
+    private static boolean canInsertItemIntoOutputSlot(SimpleInventory inventory, Item output) {
+        return inventory.getStack(2).getItem() == output || inventory.getStack(2).isEmpty();
+    }
+
+    private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory) {
+        return inventory.getStack(2).getMaxCount() > inventory.getStack(2).getCount();
+    }
+
 
 }

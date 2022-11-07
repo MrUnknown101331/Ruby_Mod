@@ -5,8 +5,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
+import net.mrunknown.mechaniummod.blocks.entity.FluidInjectorBlockEntity;
 import net.mrunknown.mechaniummod.blocks.entity.FruitCrusherBlockEntity;
 import net.mrunknown.mechaniummod.blocks.entity.GemInfusingBlockEntity;
+import net.mrunknown.mechaniummod.screens.FluidInjectorScreenHandler;
 import net.mrunknown.mechaniummod.screens.FruitCrusherScreenHandler;
 import net.mrunknown.mechaniummod.screens.GemInfusingScreenHandler;
 
@@ -31,6 +33,15 @@ public class EnergySyncS2CPacket {
                 blockEntity.setEnergyLevel(energy);
 
                 if (client.player.currentScreenHandler instanceof FruitCrusherScreenHandler screenHandler &&
+                        screenHandler.blockEntity.getPos().equals(position)) {
+                    blockEntity.setEnergyLevel(energy);
+                }
+            }
+
+            if (client.world.getBlockEntity(position) instanceof FluidInjectorBlockEntity blockEntity) {
+                blockEntity.setEnergyLevel(energy);
+
+                if (client.player.currentScreenHandler instanceof FluidInjectorScreenHandler screenHandler &&
                         screenHandler.blockEntity.getPos().equals(position)) {
                     blockEntity.setEnergyLevel(energy);
                 }

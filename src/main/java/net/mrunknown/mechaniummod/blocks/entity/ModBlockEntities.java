@@ -13,6 +13,7 @@ import team.reborn.energy.api.EnergyStorage;
 public class ModBlockEntities {
     public static BlockEntityType<GemInfusingBlockEntity> GEM_INFUSING_STATION;
     public static BlockEntityType<FruitCrusherBlockEntity> FRUIT_CRUSHER;
+    public static BlockEntityType<FluidInjectorBlockEntity> FLUID_INJECTOR;
 
     public static void registerBlockEntities() {
         GEM_INFUSING_STATION = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MechaniumMod.MOD_ID, "gem_infusing_station"),
@@ -21,9 +22,14 @@ public class ModBlockEntities {
         FRUIT_CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MechaniumMod.MOD_ID, "fruit_crusher"),
                 FabricBlockEntityTypeBuilder.create(FruitCrusherBlockEntity::new, ModBlocks.FRUIT_CRUSHER).build(null));
 
+        FLUID_INJECTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MechaniumMod.MOD_ID, "fluid_injector"),
+                FabricBlockEntityTypeBuilder.create(FluidInjectorBlockEntity::new, ModBlocks.FLUID_INJECTOR).build(null));
+
         EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage, GEM_INFUSING_STATION);
         EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage, FRUIT_CRUSHER);
+        EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage, FLUID_INJECTOR);
 
         FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.fluidStorage, FRUIT_CRUSHER);
+        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.fluidStorage, FLUID_INJECTOR);
     }
 }
