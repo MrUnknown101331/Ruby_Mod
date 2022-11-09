@@ -3,6 +3,8 @@
 
   "item.mechaniummod.raw_mechanium": "Raw Mechanium",
   "item.mechaniummod.mechanium": "Mechanium",
+  "item.mechaniummod.machine_case": "Machine Case",
+  "item.mechaniummod.mechanium_pickaxe": "Mechanium Pickaxe",
   "item.mechaniummod.mob_catcher_wand": "Mob Catcher Wand",
   "item.mechaniummod.mechafruit_seed": "Mecha Fruit Seeds",
   "item.mechaniummod.mechafruit": "Mecha Fruit",
@@ -19,6 +21,7 @@
   "block.mechaniummod.mechanium_lamp": "Mechanium Lamp",
   "block.mechaniummod.gem_infusing_station": "Gem Infusing Station",
   "block.mechaniummod.fruit_crusher": "Fruit Crusher",
+  "block.mechaniummod.fluid_injector": "Fluid Injector",
   "block.mechaniummod.mechafruit_crop": "Mecha Fruit Crop",
   "block.mechaniummod.mechafruit_juice": "Mecha Fruit Juice",
 

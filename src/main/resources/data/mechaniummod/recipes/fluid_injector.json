@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "*": {
+      "item": "mechaniummod:machine_case"
+    },
+    "#": {
+      "item": "mechaniummod:mechanium"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "U": {
+      "item": "mechaniummod:mechafruit_juice_bucket"
+    }
+  },
+  "pattern": [
+    "IUI",
+    "#*#",
+    "SSS"
+  ],
+  "result": {
+    "item": "mechaniummod:fruit_crusher"
+  }
+}

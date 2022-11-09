@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-
+    "mechaniummod:gem_infusing_station",
+    "mechaniummod:fruit_crusher",
+    "mechaniummod:fluid_injector"
   ]
 }

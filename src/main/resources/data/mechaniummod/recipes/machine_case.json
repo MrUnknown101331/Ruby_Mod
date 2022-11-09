@@ -1,0 +1,14 @@
+{
+  "type": "mechaniummod:gem_infusing",
+  "ingredients": [
+    {
+      "item": "mechaniummod:mechanium"
+    },
+    {
+      "item": "minecraft:iron_block"
+    }
+  ],
+  "output": {
+    "item": "mechaniummod:machine_case"
+  }
+}

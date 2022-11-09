@@ -6,6 +6,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.mrunknown.mechaniummod.MechaniumMod;
@@ -17,6 +18,9 @@ public class ModItems {
     public static final Item RAW_MECHANIUM = registerItem("raw_mechanium",
             new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
     public static final Item MECHANIUM = registerItem("mechanium",
+            new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
+
+    public static final Item MACHINE_CASE = registerItem("machine_case",
             new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
 
     public static final Item MOB_CATCHER_WAND = registerItem("mob_catcher_wand",
@@ -37,6 +41,11 @@ public class ModItems {
 
     public static final Item INCOMPLETE_MECHAFRUIT_SEED = registerItem("incomplete_mechafruit_seed",
             new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
+
+    public static final Item MECHANIUM_PICKAXE = registerItem("mechanium_pickaxe",
+            new PickaxeItem(ModToolMaterials.MECHANIUM,6,1.2f,
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
+
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registry.ITEM, new Identifier(MechaniumMod.MOD_ID, name), item);

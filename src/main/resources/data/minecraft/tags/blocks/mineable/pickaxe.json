@@ -6,6 +6,9 @@
     "mechaniummod:endstone_mechanium_ore",
     "mechaniummod:netherrack_mechanium_ore",
     "mechaniummod:deepslate_mechanium_ore",
-    "mechaniummod:mechanium_lamp"
+    "mechaniummod:mechanium_lamp",
+    "mechaniummod:gem_infusing_station",
+    "mechaniummod:fruit_crusher",
+    "mechaniummod:fluid_injector"
   ]
 }

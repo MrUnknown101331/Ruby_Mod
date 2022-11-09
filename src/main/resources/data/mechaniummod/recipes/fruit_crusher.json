@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "*": {
+      "item": "mechaniummod:machine_case"
+    },
+    "#": {
+      "item": "mechaniummod:mechafruit"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "III",
+    "#*#",
+    "SSS"
+  ],
+  "result": {
+    "item": "mechaniummod:fruit_crusher"
+  }
+}

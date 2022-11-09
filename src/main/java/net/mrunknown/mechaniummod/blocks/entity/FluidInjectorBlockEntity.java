@@ -34,12 +34,12 @@ import net.mrunknown.mechaniummod.fluid.ModFluids;
 import net.mrunknown.mechaniummod.items.ModItems;
 import net.mrunknown.mechaniummod.networking.ModMessages;
 import net.mrunknown.mechaniummod.recipe.FluidInjectingRecipe;
-import net.mrunknown.mechaniummod.recipe.GemInfusingRecipe;
 import net.mrunknown.mechaniummod.screens.FluidInjectorScreenHandler;
 import net.mrunknown.mechaniummod.utils.FluidStack;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -50,6 +50,7 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
         @Override
         protected void onFinalCommit() {
             markDirty();
+            assert world != null;
             if (!world.isClient()) {
                 sendEnergyPacket();
             }
@@ -71,6 +72,7 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
         @Override
         protected void onFinalCommit() {
             markDirty();
+            assert world != null;
             if (!world.isClient()) {
                 sendFluidPacket();
             }
@@ -82,6 +84,7 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
         data.writeLong(energyStorage.amount);
         data.writeBlockPos(getPos());
 
+        assert world != null;
         for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
             ServerPlayNetworking.send(player, ModMessages.ENERGY_SYNC, data);
         }
@@ -93,6 +96,7 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
         data.writeLong(fluidStorage.amount);
         data.writeBlockPos(getPos());
 
+        assert world != null;
         for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos())) {
             ServerPlayNetworking.send(player, ModMessages.FLUID_SYNC, data);
         }
@@ -190,7 +194,7 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        Direction localDir = this.getWorld().getBlockState(this.pos).get(FluidInjectorBlock.FACING);
+        Direction localDir = Objects.requireNonNull(this.getWorld()).getBlockState(this.pos).get(FluidInjectorBlock.FACING);
 
         if (side == Direction.UP) {
             return false;
@@ -292,15 +296,23 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
             inventory.setStack(i, entity.getStack(i));
         }
 
-        if (hasRecipe(entity)) {
-            entity.removeStack(1, 1);
+        Optional<FluidInjectingRecipe> recipe = Objects.requireNonNull(entity.getWorld()).getRecipeManager()
+                .getFirstMatch(FluidInjectingRecipe.Type.INSTANCE, inventory, entity.getWorld());
 
-            Optional<FluidInjectingRecipe> recipe = entity.getWorld().getRecipeManager()
-                    .getFirstMatch(FluidInjectingRecipe.Type.INSTANCE, inventory, entity.getWorld());
+        if (hasRecipe(entity) && recipe.isPresent()) {
 
-            entity.setStack(2, new ItemStack(recipe.get().getOutput().getItem(), entity.getStack(2).getCount() + 1));
+            if (recipe.get().getOutput().getItem() == ModItems.MOB_CATCHER_WAND) {
+                entity.removeStack(1, 1);
+                entity.setStack(2, new ItemStack(recipe.get().getOutput().getItem(), entity.getStack(2).getCount() + 1));
+            } else {
+                NbtCompound nbt = entity.getStack(1).getNbt();
+                entity.removeStack(1, 1);
+                entity.setStack(2, new ItemStack(recipe.get().getOutput().getItem(), entity.getStack(2).getCount() + 1));
+                entity.getStack(2).setNbt(nbt);
+            }
+
+
             extractFluid(entity, 500);
-
             entity.resetProgress();
         }
     }
@@ -311,7 +323,7 @@ public class FluidInjectorBlockEntity extends BlockEntity implements ExtendedScr
             inventory.setStack(i, entity.getStack(i));
         }
 
-        Optional<FluidInjectingRecipe> match = entity.getWorld().getRecipeManager()
+        Optional<FluidInjectingRecipe> match = Objects.requireNonNull(entity.getWorld()).getRecipeManager()
                 .getFirstMatch(FluidInjectingRecipe.Type.INSTANCE, inventory, entity.getWorld());
 
         return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)

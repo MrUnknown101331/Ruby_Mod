@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "mechaniummod:mechanium"
+    },
+    "*": {
+      "item": "minecraft:furnace"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "III",
+    "#*#",
+    "SSS"
+  ],
+  "result": {
+    "item": "mechaniummod:gem_infusing_station"
+  }
+}
