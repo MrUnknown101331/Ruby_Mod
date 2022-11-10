@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "mechaniummod:item/mechanium_pickaxe"
+    "layer0": "mechaniummod:item/mechanium_hoe"
   }
 }
