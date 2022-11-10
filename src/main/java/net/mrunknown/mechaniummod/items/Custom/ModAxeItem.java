@@ -14,7 +14,7 @@ public class ModAxeItem extends AxeItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 200, 2), attacker);
+        attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 200, 2), attacker);
         return super.postHit(stack, target, attacker);
     }
 }

@@ -1,6 +1,7 @@
 package net.mrunknown.mechaniummod.items;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
@@ -8,10 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.mrunknown.mechaniummod.MechaniumMod;
 import net.mrunknown.mechaniummod.blocks.ModBlocks;
-import net.mrunknown.mechaniummod.items.Custom.MechaniumPokeballItem;
-import net.mrunknown.mechaniummod.items.Custom.ModAxeItem;
-import net.mrunknown.mechaniummod.items.Custom.ModHoeItem;
-import net.mrunknown.mechaniummod.items.Custom.ModSwordItem;
+import net.mrunknown.mechaniummod.items.Custom.*;
 
 public class ModItems {
 
@@ -38,25 +36,39 @@ public class ModItems {
                             .statusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER, 600), 1f)
                             .statusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 600), 1f)
                             .build())));
-
     public static final Item INCOMPLETE_MECHAFRUIT_SEED = registerItem("incomplete_mechafruit_seed",
             new Item(new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP)));
 
+
     public static final Item MECHANIUM_PICKAXE = registerItem("mechanium_pickaxe",
             new PickaxeItem(ModToolMaterials.MECHANIUM, 1, -2.6f,
-                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
     public static final Item MECHANIUM_AXE = registerItem("mechanium_axe",
             new ModAxeItem(ModToolMaterials.MECHANIUM, 5, -2.8f,
-                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
     public static final Item MECHANIUM_SHOVEL = registerItem("mechanium_shovel",
             new ShovelItem(ModToolMaterials.MECHANIUM, 1, -2.9f,
-                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
     public static final Item MECHANIUM_SWORD = registerItem("mechanium_sword",
             new ModSwordItem(ModToolMaterials.MECHANIUM, 3, -2.2f,
-                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
     public static final Item MECHANIUM_HOE = registerItem("mechanium_hoe",
             new ModHoeItem(ModToolMaterials.MECHANIUM, -2, 0.2f,
-                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1)));
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
+
+
+    public static final Item MECHANIUM_HELMET = registerItem("mechanium_helmet",
+            new ModArmorItem(ModArmorMaterials.MECHANIUM, EquipmentSlot.HEAD,
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
+    public static final Item MECHANIUM_CHESTPLATE = registerItem("mechanium_chestplate",
+            new ArmorItem(ModArmorMaterials.MECHANIUM, EquipmentSlot.CHEST,
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
+    public static final Item MECHANIUM_LEGGINGS = registerItem("mechanium_leggings",
+            new ArmorItem(ModArmorMaterials.MECHANIUM, EquipmentSlot.LEGS,
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
+    public static final Item MECHANIUM_BOOTS = registerItem("mechanium_boots",
+            new ArmorItem(ModArmorMaterials.MECHANIUM, EquipmentSlot.FEET,
+                    new FabricItemSettings().group(ModItemGroup.MECHANIUM_ITEM_GROUP).maxCount(1).fireproof()));
 
 
     private static Item registerItem(String name, Item item) {

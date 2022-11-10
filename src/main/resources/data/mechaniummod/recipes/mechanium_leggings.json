@@ -1,0 +1,11 @@
+{
+  "type": "mechaniummod:fluid_injecting",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_leggings"
+    }
+  ],
+  "output": {
+    "item": "mechaniummod:mechanium_leggings"
+  }
+}

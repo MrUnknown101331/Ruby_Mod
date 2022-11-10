@@ -1,0 +1,11 @@
+{
+  "type": "mechaniummod:fluid_injecting",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_helmet"
+    }
+  ],
+  "output": {
+    "item": "mechaniummod:mechanium_helmet"
+  }
+}
